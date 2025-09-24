@@ -25,8 +25,8 @@ def call():
         phone_number = form.phone_number.data
         text_message = form.text_message.data
 
-        def strip_code(text_message):
-            for word in text_message.split():
+        def strip_code(message):
+            for word in message.split():
                 if word.isdigit() and len(word) < 6:
                     return word 
 
