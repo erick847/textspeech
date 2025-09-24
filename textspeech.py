@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
+
+# Define the form using WTForms
 class InputForm(Form):
     phone_number = StringField('Phone Number', [validators.DataRequired(), validators.Length(min=10, max=15)])
     text_message = StringField('Text Message', [validators.DataRequired(), validators.Length(min=1, max=160)])
@@ -18,6 +20,7 @@ class InputForm(Form):
 def home():
     return render_template('index.html')
 
+# Define the route for the form
 @app.route('/call', methods=['GET', 'POST'])
 def call():
     form = InputForm(request.form)
@@ -25,18 +28,20 @@ def call():
         phone_number = form.phone_number.data
         text_message = form.text_message.data
 
+# strip out code from message
         def strip_code(message):
             for word in message.split():
                 if word.isdigit() and len(word) < 6:
                     return word 
 
 
-
+# Get TeleSign credentials from environment variables
         username = os.getenv("TELESIGN_ID")
         password = os.getenv("TELESIGN_KEY")
 
-        url = "https://rest-ww.telesign.com/v1/verify/call"
+        telesign_url = "https://rest-ww.telesign.com/v1/verify/call"
 
+# Prepare the payload for the API request
         payload = { "language": "en-US", 
                     "verify_code": strip_code(text_message), 
                     "phone_number": phone_number, 
@@ -48,8 +53,8 @@ def call():
             "content-type": "application/x-www-form-urlencoded"
         }
 
-
-        response = requests.post(url, data=payload, headers=headers, auth=htt(username, password))
+# Make the API request to TeleSign
+        response = requests.post(telesign_url, data=payload, headers=headers, auth=htt(username, password))
 
         print(response.text)
         return redirect(url_for('home'))
