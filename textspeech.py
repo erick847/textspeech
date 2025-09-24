@@ -1,6 +1,6 @@
 import requests
 import os
-from requests.auth import HTTPBasicAuth
+from requests.auth import HTTPBasicAuth as htt
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -20,6 +20,6 @@ headers = {
     "content-type": "application/x-www-form-urlencoded"
 }
 
-response = requests.post(url, data=payload, headers=headers, auth=HTTPBasicAuth(username, password))
+response = requests.post(url, data=payload, headers=headers, auth=htt(username, password))
 
 print(response.text)
