@@ -9,6 +9,7 @@ load_dotenv()
 app = Flask(__name__)
 class InputForm(Form):
     phone_number = StringField('Phone Number', [validators.DataRequired(), validators.Length(min=10, max=15)])
+    text_message = StringField('Text Message', [validators.DataRequired(), validators.Length(min=1, max=160)])
     submit = SubmitField('Call Me!')
 
 
@@ -22,6 +23,14 @@ def call():
     form = InputForm(request.form)
     if request.method == 'POST' and form.validate():
         phone_number = form.phone_number.data
+        text_message = form.text_message.data
+
+        def strip_code(text_message):
+            for word in text_message.split():
+                if word.isdigit() and len(word) < 6:
+                    return word 
+
+
 
         username = os.getenv("TELESIGN_ID")
         password = os.getenv("TELESIGN_KEY")
@@ -29,7 +38,7 @@ def call():
         url = "https://rest-ww.telesign.com/v1/verify/call"
 
         payload = { "language": "en-US", 
-                    "verify_code": "1234", 
+                    "verify_code": strip_code(text_message), 
                     "phone_number": phone_number, 
                     "ucid": "BACS" }           
         
