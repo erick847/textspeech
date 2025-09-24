@@ -1,19 +1,25 @@
 import requests
+import os
+from requests.auth import HTTPBasicAuth
+from dotenv import load_dotenv
+load_dotenv()
+
+username = os.getenv("TELESIGN_ID")
+password = os.getenv("TELESIGN_KEY")
 
 url = "https://rest-ww.telesign.com/v1/verify/call"
 
 payload = { "language": "en-US", 
             "verify_code": "1234", 
-            "phone_number": "+255696606112", 
+            "phone_number": "+255684467957", 
             "ucid": "BACS" }           
  
 
 headers = {
     "accept": "application/json",
-    "content-type": "application/x-www-form-urlencoded",
-    "authorization": "Basic OUQwNDBEN0EtQThCNC00RkFCLUIwQjItM0ZFOEJDODVBQTRFOkNMaXBsVStNL0FZdHZGTC9ncWtRalp0aWV3Tk9vUFBMbnI5KzF3R1hpOEp0OVZ0RHlCcDl4bHZUN2Q1K3dwVGFFbTQ2YlFHVlN2elRBZGpjVG9NcnFnPT0="
+    "content-type": "application/x-www-form-urlencoded"
 }
 
-response = requests.post(url, data=payload, headers=headers)
+response = requests.post(url, data=payload, headers=headers, auth=HTTPBasicAuth(username, password))
 
 print(response.text)
