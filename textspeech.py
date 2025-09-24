@@ -4,7 +4,7 @@ url = "https://rest-ww.telesign.com/v1/verify/call"
 
 payload = { "language": "en-US", 
             "verify_code": "1234", 
-            "phone_number": "+255696606112", 
+            "phone_number": "+255764840059", 
             "ucid": "BACS" }           
  
 
