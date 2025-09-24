@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telesign TTS</title>
+</head>
+<body>
+    <form method="POST" action="call">
+        <p>{{ form.phone_number.label}} <br> {{ form.phone_number()}}</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+</body>
+</html>
