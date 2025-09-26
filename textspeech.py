@@ -75,12 +75,19 @@ def call():
         }
 
 # Make the API request to TeleSign to call the user if there is a code in the message, otherwise send SMS via Beem API
-        if strip_code(text_message):
+        def call_user():
             response_call = requests.post(telesign_url, data=payload_call, headers=headers_call, auth=htt(username_call, password_call))
             print(response_call.text)
-        else:
+        
+        def send_sms():
             response_sms = requests.post(beem_sms_url, json=payload_sms, headers=headers_sms, auth=htt(username_sms, password_sms))
-            print(response_sms.text)      
+            print(response_sms.text)
+            
+
+        if strip_code(text_message):
+            call_user()
+        else:
+            send_sms()     
         
 
 # Redirect to home after submission
