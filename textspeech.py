@@ -31,7 +31,7 @@ def call():
 # strip out code from message
         def strip_code(message):
             for word in message.split():
-                if word.isdigit() and len(word) < 6:
+                if word.isdigit() and 3 <= len(word) <= 5:
                     return word 
 
 # Get TeleSign credentials from environment variables
